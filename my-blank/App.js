@@ -23,9 +23,6 @@ export default function App() {
       <Texto style={styles.black}></Texto>  
       <Texto style={styles.red}></Texto> 
       <Texto style={styles.yellow}></Texto>    
-               
-      
-      
 
     </View>
   );
