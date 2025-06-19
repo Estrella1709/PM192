@@ -1,51 +1,92 @@
 
 /* Zona 1: Importaciones*/
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import React,{useState} from 'react';
-
-const Texto=({style})=>{
-  const[contenido, setContenido]=useState('Hola mundo react')
-  const actualizarTexto=()=>{
-    setContenido('Estado actualizado')
-  }
-  return(
-    <Text style={[styles.text, style]} onPress={actualizarTexto}>{contenido}</Text>
-  )
-}
+import { useState } from 'react';
+import { StyleSheet, Text, View, Switch} from 'react-native';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 /* Zona 2: Main*/
 export default function App() {
+
+  const [activarSwitch, setActivarSwitch] = useState(false);
+  const [modoOscuro, setModoOscuro] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
+    <SafeAreaProvider>
+      <SafeAreaView style={[styles.contenedor, modoOscuro && styles.fondoOscuro]}>
 
-      <Texto style={styles.black}></Texto>  
-      <Texto style={styles.red}></Texto> 
-      <Texto style={styles.yellow}></Texto>    
+        {/* Aqui van los componentes*/}
+        <Text style={[styles.titulo, modoOscuro && styles.textoClaro]}>
+            Practica con Switchs
+        </Text>
 
-    </View>
+        <View style={styles.opcion}>
+            <Text style={[styles.etiqueta, modoOscuro && styles.textoClaro]}>
+              Activar Switch 2
+            </Text>
+            <Switch 
+              value={activarSwitch}
+              onValueChange={setActivarSwitch}
+              trackColor={{false: '#ccc', true:'#4acf50'}}
+              thumbColor={activarSwitch?'#ffffff':'#999999'}>
+            </Switch>
+        </View>
+
+        <View style={styles.opcion}>
+            <Text style={[styles.etiqueta, modoOscuro && styles.textoClaro]}>
+              Modo Oscuro
+            </Text>
+            <Switch 
+              value={modoOscuro}
+              onValueChange={setModoOscuro}
+              disabled={!activarSwitch}
+              trackColor={
+                !activarSwitch
+                ?{false: '#ff9999', true: '#ff3b30'}
+                :{false: '#ccc', true: '#4acf50'}
+              }
+              thumbColor={
+                !activarSwitch
+                ?'#ff3b30'
+                :modoOscuro
+                ?'#ffffff'
+                :'#999999'
+              }>
+            </Switch>
+        </View>
+
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 /* Zona 3: Estilos*/
 const styles = StyleSheet.create({
-  container: {
+  contenedor: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'str',
-    justifyContent: 'center',
-    flexDirection: 'column',
+    paddingHorizontal: 30,
+    justifyContent: 'center' 
   },
-
-  text:{
-    color: 'black',
-    fontSize:25,
-    height:100,
+  titulo:{
+    fontSize: 24,
+    marginBottom: 40,
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
-  
-  red:{backgroundColor: 'red'},
-  black:{backgroundColor: 'black'},
-  yellow:{backgroundColor: 'yellow'},
-
+  fondoOscuro:{
+    backgroundColor: '#1a1a1a'
+  },
+  textoClaro:{
+    color: '#ffffff'
+  },
+  opcion:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 30,
+    alignItems: 'center'
+  },
+  etiqueta:{
+    fontSize: 18,
+  }
 });
