@@ -2,61 +2,56 @@
 /* Zona 1: Importaciones*/
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, Switch} from 'react-native';
+import { StyleSheet, Text, View, Switch, Alert, Image, TouchableOpacity, Button} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 /* Zona 2: Main*/
 export default function App() {
 
-  const [activarSwitch, setActivarSwitch] = useState(false);
-  const [modoOscuro, setModoOscuro] = useState(false);
+const[botonDesactivado, setBotonDesactivado]=useState(false);
+const[contador, setContador]=useState(0);
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={[styles.contenedor, modoOscuro && styles.fondoOscuro]}>
+    <View style={styles.contenedor}>
+      <Button
+      title="Presioname"
+      color="#841584"
+      onPress={()=> alert('Me presionaste')}
+      ></Button>
 
-        {/* Aqui van los componentes*/}
-        <Text style={[styles.titulo, modoOscuro && styles.textoClaro]}>
-            Practica con Switchs
-        </Text>
+      <Button
+        title={botonDesactivado ? "Desactivado" : "Desactívame"}
+        disabled={botonDesactivado}
+        onPress={() => setBotonDesactivado(true)}
+      >
+      </Button>
 
-        <View style={styles.opcion}>
-            <Text style={[styles.etiqueta, modoOscuro && styles.textoClaro]}>
-              Activar Switch 2
-            </Text>
-            <Switch 
-              value={activarSwitch}
-              onValueChange={setActivarSwitch}
-              trackColor={{false: '#ccc', true:'#4acf50'}}
-              thumbColor={activarSwitch?'#ffffff':'#999999'}>
-            </Switch>
-        </View>
+      <View style={styles.botonJustificado}>
+        <Button
+         title="Left Button"
+         color="#674323"
+        ></Button>
+        <Button
+         title="Right button"
+         color="#097865"
+        ></Button>
+      </View>
 
-        <View style={styles.opcion}>
-            <Text style={[styles.etiqueta, modoOscuro && styles.textoClaro]}>
-              Modo Oscuro
-            </Text>
-            <Switch 
-              value={modoOscuro}
-              onValueChange={setModoOscuro}
-              disabled={!activarSwitch}
-              trackColor={
-                !activarSwitch
-                ?{false: '#ff9999', true: '#ff3b30'}
-                :{false: '#ccc', true: '#4acf50'}
-              }
-              thumbColor={
-                !activarSwitch
-                ?'#ff3b30'
-                :modoOscuro
-                ?'#ffffff'
-                :'#999999'
-              }>
-            </Switch>
-        </View>
-
-      </SafeAreaView>
-    </SafeAreaProvider>
+      <TouchableOpacity
+        style={styles.dynamicButton}
+        onPress={()=> setContador(contador + 1)}
+      >
+        <Text style={styles.DynamicText}>{contador}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={()=>alert("La pokebola a sido presionada")}
+      >
+        <Image
+          source={require('./assets/pokebola.jpeg')}
+          style={styles.imagen}
+        />
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -68,25 +63,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     justifyContent: 'center' 
   },
-  titulo:{
-    fontSize: 24,
-    marginBottom: 40,
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-  fondoOscuro:{
-    backgroundColor: '#1a1a1a'
-  },
-  textoClaro:{
-    color: '#ffffff'
-  },
-  opcion:{
+  botonJustificado: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 30,
+    justifyContent: 'space-between'
+  },
+  dynamicButton: {
+    padding: 10,
+    marginTop: 10,
+    backgroundColor: '#988767',
+    borderRadius: 5,
     alignItems: 'center'
   },
-  etiqueta:{
-    fontSize: 18,
+  DynamicText: {
+    color: '#345676',
+    fontSize: 18
+  },
+  imagen:{
+    width: 100,
+    height: 100
   }
+
 });
